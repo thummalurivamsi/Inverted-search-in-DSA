@@ -1,0 +1,1 @@
+A well-designed embedded system is the bridge between imagination and reality
