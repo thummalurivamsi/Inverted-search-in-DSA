@@ -190,12 +190,104 @@ int search_Database(HashTable *table, const char *word)
     return FAILURE;
 }
 
+int search_and_select_word(HashTable *table, const char *prefix)
+{
+    if (table == NULL)
+        return FAILURE;
+
+    char valid_words[100][50]; // store words temporarily
+    int word_count = 0;
+
+    printf("🔍 Words matching '%s':\n", (prefix && strlen(prefix) > 0) ? prefix : "all");
+
+    // Collect matching words
+    for (int i = 0; i < 28; i++)
+    {
+        MainNode *node = table[i].link;
+        while (node != NULL)
+        {
+            if (prefix == NULL || strlen(prefix) == 0 || strncmp(node->word, prefix, strlen(prefix)) == 0)
+            {
+                strcpy(valid_words[word_count], node->word);
+                printf("%d. %s\n", word_count + 1, node->word);
+                word_count++;
+            }
+            node = node->main_link;
+        }
+    }
+
+    if (word_count == 0)
+    {
+        printf("❌ No words found.\n");
+        return FAILURE;
+    }
+
+    int choice = -1;
+
+    while (1) // keep asking until user chooses 0
+    {
+        printf("\nEnter the number of the word to view details (1-%d, 0 to exit): ", word_count);
+
+        if (scanf("%d", &choice) != 1)
+        {
+            printf("❌ Invalid input. Please enter a number.\n");
+            while (getchar() != '\n')
+                ; // clear invalid input
+            continue;
+        }
+
+        getchar(); // consume newline
+
+        if (choice == 0)
+        {
+            printf("➡️  Exiting partial search.\n");
+            break;
+        }
+
+        if (choice < 1 || choice > word_count)
+        {
+            printf("❌ Number out of range. Please select a valid number.\n");
+            continue;
+        }
+
+        char *selected_word = valid_words[choice - 1];
+
+        // Display files and counts for the selected word
+        int index = get_Hash_Index(selected_word);
+        MainNode *mainNode = table[index].link;
+        while (mainNode != NULL)
+        {
+            if (strcmp(mainNode->word, selected_word) == 0)
+            {
+                printf("\n📂 Word '%s' found in %d %s:\n", mainNode->word, mainNode->file_count,
+                       (mainNode->file_count > 1) ? "files" : "file");
+                printf("╔════════════════════════╦═════════════╗\n");
+                printf("║ 📄 File Name           ║ 📝 Count    ║\n");
+                printf("╠════════════════════════╬═════════════╣\n");
+
+                SubNode *subNode = mainNode->sub_link;
+                while (subNode != NULL)
+                {
+                    printf("║ %-22s ║ %-11d ║\n", subNode->file_name, subNode->word_count);
+                    subNode = subNode->sub_link;
+                }
+
+                printf("╚════════════════════════╩═════════════╝\n");
+                break;
+            }
+            mainNode = mainNode->main_link;
+        }
+    }
+
+    return SUCCESS;
+}
+
 int update_Database(HashTable *database, const char *filename, FileList **file_list)
 {
     FILE *fp = fopen(filename, "r");
     if (!fp)
     {
-        printf("❌ Error: Unable to open backup file '%s'\n", filename);
+        perror("🚫 Error: Cannot open file ");
         return FAILURE;
     }
 
