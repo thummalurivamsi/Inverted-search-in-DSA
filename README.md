@@ -100,9 +100,19 @@ Project demo
 
 🖼️ Sample Terminal Output:
 
-<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/f0de341f-d10f-44f2-99e0-d0739f911005" />
-<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/5f8b73cf-b05a-4ad1-a6a0-2e47f00ae503" />
-
+<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/2869e206-7f34-45fd-bb23-f1fe1bd2e124" />
+<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/2a3e39a9-a0cd-44b6-9a65-590222c3f2e8" />
+<img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/b48e45b6-cf7e-435e-ab02-0cc721275466" />
+<img width="1920" height="1080" alt="create-1" src="https://github.com/user-attachments/assets/32025bd9-593d-467f-913b-6f133259465a" />
+<img width="1920" height="1080" alt="create-2" src="https://github.com/user-attachments/assets/fda0367e-5d7c-486d-8854-8f7d7773029b" />
+<img width="1920" height="1080" alt="search-1" src="https://github.com/user-attachments/assets/796d2c0f-9fad-4432-835f-63023ee4e703" />
+<img width="1920" height="1080" alt="search_bychar-1" src="https://github.com/user-attachments/assets/925d1c58-33b2-49fb-82a0-483a21016854" />
+<img width="1920" height="1080" alt="search_bychar-2" src="https://github.com/user-attachments/assets/3bd58054-310a-4416-8fc7-d4b55a579a11" />
+<img width="1920" height="1080" alt="dis-1" src="https://github.com/user-attachments/assets/555548eb-ed9e-4657-966b-4597f4ffc889" />
+<img width="1920" height="1080" alt="dis-2" src="https://github.com/user-attachments/assets/8af10de6-be75-4a53-a42f-7806979f9b25" />
+<img width="1920" height="1080" alt="save" src="https://github.com/user-attachments/assets/13c8f1cc-5b5d-4165-a4bf-c790760ca38e" />
+<img width="1920" height="1080" alt="update-1" src="https://github.com/user-attachments/assets/2442a830-7c38-438b-a3f2-4b1ce626c82b" />
+<img width="1920" height="1080" alt="update-2" src="https://github.com/user-attachments/assets/0ef3af64-554a-445c-ab96-2fb3b9ec8743" />
 
 📈 Future Improvements
 
