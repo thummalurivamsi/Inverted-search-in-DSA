@@ -83,7 +83,8 @@ int save_Database(HashTable *table, const char *filename);  // Save database to 
 void free_Database(HashTable *table, int size);             // Free memory allocated to database
 
 // Search and insertion
-int search_Database(HashTable *table, const char *word);                    // Search for a word in the database
+int search_Database(HashTable *table, const char *word); // Search for a word in the database
+int search_and_select_word(HashTable *table, const char *prefix);
 void insert_word(HashTable *table, const char *word, const char *filename); // Insert or update a word
 
 // Update database
