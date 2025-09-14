@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
         printf("├────┬─────────────────────────────────┤\n");
         printf("│ 1  │ Create Database                 │\n");
         printf("│ 2  │ Search Exact Word in Database   │\n");
-        printf("│ 3  │ Search by Characters (Partial) │\n");
+        printf("│ 3  │ Search by Characters (Partial)  │\n");
         printf("│ 4  │ Display Database                │\n");
         printf("│ 5  │ Save Database                   │\n");
         printf("│ 6  │ Update Database                 │\n");
@@ -297,3 +297,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
