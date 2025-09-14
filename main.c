@@ -43,11 +43,12 @@ int main(int argc, char *argv[])
         printf("│        📂 Inverted Search Menu       │\n");
         printf("├────┬─────────────────────────────────┤\n");
         printf("│ 1  │ Create Database                 │\n");
-        printf("│ 2  │ Search Word in Database         │\n");
-        printf("│ 3  │ Display Database                │\n");
-        printf("│ 4  │ Save Database                   │\n");
-        printf("│ 5  │ Update Database                 │\n");
-        printf("│ 6  │ Exit                            │\n");
+        printf("│ 2  │ Search Exact Word in Database   │\n");
+        printf("│ 3  │ Search by Characters (Partial) │\n");
+        printf("│ 4  │ Display Database                │\n");
+        printf("│ 5  │ Save Database                   │\n");
+        printf("│ 6  │ Update Database                 │\n");
+        printf("│ 7  │ Exit                            │\n");
         printf("└────┴─────────────────────────────────┘\n");
         printf("👉 Enter your choice: ");
 
@@ -59,7 +60,7 @@ int main(int argc, char *argv[])
         case 1:
             if (is_db_created)
             {
-                printf("⚠️  Database already created\n");
+                printf("⚠️  Database already created. Cannot create again\n");
             }
             else
             {
@@ -84,16 +85,45 @@ int main(int argc, char *argv[])
             getchar();
             if (search_Database(database, word) != SUCCESS)
             {
-                printf("\n❌ Failed Searching\n");
+                // printf("\n❌ Failed Searching\n");
                 break;
             }
             printf("\n✅ Displayed successfully\n");
             break;
-
-        case 3:
+        case 3: // Partial / prefix search
+        {
             if (!is_db_created)
             {
-                printf("⚠️  Database not created yet. Nothing to display\n");
+                printf("⚠️  Database not created yet. Cannot search.\n");
+                break;
+            }
+
+            char prefix[50];
+            printf("Enter starting characters to search (or press Enter to show all words): ");
+
+            fgets(prefix, sizeof(prefix), stdin);
+
+            // Remove trailing newline if any
+            size_t len = strlen(prefix);
+            if (len > 0 && prefix[len - 1] == '\n')
+                prefix[len - 1] = '\0'; // empty string if user pressed Enter
+
+            // Call the guided search function
+            if (search_and_select_word(database, prefix) != SUCCESS)
+            {
+                printf("❌ Search failed or no matching words found.\n");
+            }
+            else
+            {
+                printf("\n✅ Prefix search and selection completed successfully\n");
+            }
+            break;
+        }
+
+        case 4:
+            if (!is_db_created)
+            {
+                printf("⚠️  Database not created | Updated yet. Nothing to display\n");
                 break;
             }
             if (display_Database(database) != SUCCESS)
@@ -104,18 +134,47 @@ int main(int argc, char *argv[])
             printf("\n✅ Database Displayed successfully\n");
             break;
 
-        case 4:
+        case 5:
         {
             if (!is_db_created)
             {
-                printf("⚠️  Database not created yet. Cannot save\n");
+                printf("⚠️  Database not created | updated yet. Cannot save\n");
                 break;
             }
 
             if (is_db_saved)
             {
-                printf("⚠️  Database has already been saved. Cannot save again.\n");
-                break;
+                printf("⚠️  Database has already been saved\n");
+
+                char choice;
+                printf("Do you want to save again? (y/n): ");
+                while (1)
+                {
+                    scanf(" %c", &choice); // Skip leading whitespace including newline
+
+                    if (choice == 'y' || choice == 'Y')
+                    {
+                        printf("➡️  Proceeding to save again...\n");
+                        break; // Proceed with save
+                    }
+                    else if (choice == 'n' || choice == 'N')
+                    {
+                        printf("➡️  Save operation canceled\n");
+                        break; // Exit case without saving
+                    }
+                    else
+                    {
+                        printf("❌ Invalid choice. Please enter 'y' or 'n': ");
+                    }
+                }
+                // Consume leftover characters including newline
+                while (getchar() != '\n')
+                    ;
+
+                if (choice == 'n' || choice == 'N')
+                {
+                    break; // Exit the case, return to main menu
+                }
             }
 
             // Load the last saved file
@@ -125,12 +184,24 @@ int main(int argc, char *argv[])
             char filename[100];
             printf("Enter filename to save database [Press Enter to take default: %s]: ", last_saved_file);
 
-            if (scanf("%99[^\n]", filename) != 1)
+            if (fgets(filename, sizeof(filename), stdin) != NULL)
             {
-                strcpy(filename, last_saved_file);
-                printf("➡️  Proceeding with default file '%s'\n", filename);
+                // Remove trailing newline if present
+                size_t len = strlen(filename);
+                if (len > 0 && filename[len - 1] == '\n')
+                    filename[len - 1] = '\0';
+
+                if (strlen(filename) == 0)
+                {
+                    // Empty input, use default
+                    strcpy(filename, last_saved_file);
+                    printf("\n➡️  Proceeding with default file '%s'\n", filename);
+                }
+                else
+                {
+                    printf("\n➡️  Proceeding with file '%s'\n", filename);
+                }
             }
-            getchar(); // consume newline
 
             printf("\n👉 Saving database to '%s'\n", filename);
             if (save_Database(database, filename) != SUCCESS)
@@ -147,11 +218,11 @@ int main(int argc, char *argv[])
             break;
         }
 
-        case 5:
+        case 6:
         {
             if (is_db_created)
             {
-                printf("⚠️  Database is already created. Cannot update again\n");
+                printf("⚠️  Database is already created | Updated. Cannot Create | update again\n");
                 break;
             }
 
@@ -213,7 +284,7 @@ int main(int argc, char *argv[])
             break;
         }
 
-        case 6:
+        case 7:
             printf("👋 Exiting program.\n");
             free_Database(database, SIZE);
             free_FileList(file_list);
