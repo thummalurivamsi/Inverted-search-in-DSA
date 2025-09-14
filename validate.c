@@ -56,7 +56,7 @@ int validate_file(const char *filename)
     FILE *file = fopen(filename, "r");
     if (!file)
     {
-        printf("🚫 Error: Cannot open file %s\n", filename);
+        perror("🚫 Error: Cannot open file ");
         return FAILURE;
     }
 
@@ -64,7 +64,7 @@ int validate_file(const char *filename)
     long size = ftell(file);
     if (size == 0)
     {
-        printf("⚠️  Warning: File %s is empty\n", filename);
+        // printf("⚠️  Warning: File %s is empty\n", filename);
         fclose(file);
         return FILE_EMPTY;
     }
